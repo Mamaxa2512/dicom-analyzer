@@ -5,7 +5,9 @@
 {% block content %}
 <div class="upload-container">
     <h2>Upload DICOM File</h2>
-    <!-- TODO: Phase 1 - Add upload form here -->
-    <p>File input form goes here...</p>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" accept=".dcm" name="file">
+        <button type="submit">Submit</button>
+    </form>
 </div>
 {% endblock %}

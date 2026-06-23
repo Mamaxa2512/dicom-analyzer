@@ -6,16 +6,23 @@
 <div class="viewer-layout">
     <div class="sidebar">
         <h3>Patient Data</h3>
-        <!-- TODO: Phase 1 - Display metadata from Python here -->
+        <ul>
+            <li>Patient Name: {{dicom_data.name}}</li>
+            <li>Patient Age: {{dicom_data.age}}</li>
+            <li>Patient Sex: {{dicom_data.sex}}</li>
+            <li>Patient Modality: {{dicom_data.modality}}</li>
+            <li>Patient Study Description: {{dicom_data.study_description}}</li>
+            <li>Patient Study Date: {{dicom_data.study_date}}</li>
+        </ul>
     </div>
-    
+
     <div class="main-viewer">
         <div class="toolbar">
             <!-- TODO: Phase 2 - Add filter buttons here -->
         </div>
-        
+
         <div class="image-container">
-            <!-- TODO: Phase 1 - Display image here -->
+            <img src="/api/download/{{file_id}}" alt="Cant load image">
             <canvas id="dicomCanvas"></canvas>
         </div>
     </div>
