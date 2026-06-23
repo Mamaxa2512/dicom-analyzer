@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Viewer - DICOM Analyzer{% endblock %}
+
+{% block content %}
+<div class="viewer-layout">
+    <div class="sidebar">
+        <h3>Patient Data</h3>
+        <!-- TODO: Phase 1 - Display metadata from Python here -->
+    </div>
+    
+    <div class="main-viewer">
+        <div class="toolbar">
+            <!-- TODO: Phase 2 - Add filter buttons here -->
+        </div>
+        
+        <div class="image-container">
+            <!-- TODO: Phase 1 - Display image here -->
+            <canvas id="dicomCanvas"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/viewer.js') }}"></script>
+{% endblock %}
