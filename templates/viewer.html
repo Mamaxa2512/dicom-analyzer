@@ -18,11 +18,15 @@
 
     <div class="main-viewer">
         <div class="toolbar">
-            <!-- TODO: Phase 2 - Add filter buttons here -->
+            <button id="btn-reset" data-filter="original">Reset</button>
+            <button id="btn-invert" data-filter="invert">Invert</button>
+            <button id="btn-clahe" data-filter="clahe">CLAHE</button>
+            <button id="btn-edge" data-filter="edge">Edge Detection"</button>
         </div>
 
         <div class="image-container">
-            <img src="/api/download/{{file_id}}" alt="Cant load image">
+            <img src="/api/download/{{file_id}}" alt="Cant load image" id="dicomImage" data-file-id="{{file_id}}"
+                style="display: none">
             <canvas id="dicomCanvas"></canvas>
         </div>
     </div>
