@@ -1,13 +1,9 @@
 """
 Flask routes for the application.
 """
-# pyrefly: ignore [missing-import]
-from PIL import ImageMode
-from logging import error
-from defusedxml import ElementTree
-from defusedxml import ElementTree
 from PIL import Image
 from app.dicom_parser import parse_dicom, get_image_as_png, get_pixel_array
+
 # pyrefly: ignore [missing-import]
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, send_file
 import os
