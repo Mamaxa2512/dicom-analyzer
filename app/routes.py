@@ -2,12 +2,18 @@
 Flask routes for the application.
 """
 # pyrefly: ignore [missing-import]
+from PIL import ImageMode
+from logging import error
+from defusedxml import ElementTree
+from defusedxml import ElementTree
 from PIL import Image
-from app.dicom_parser import parse_dicom, get_image_as_png
+from app.dicom_parser import parse_dicom, get_image_as_png, get_pixel_array
 # pyrefly: ignore [missing-import]
 from flask import Blueprint, render_template, request, redirect, url_for, current_app, send_file
 import os
 import io
+from app import image_processor
+
 
 main_bp = Blueprint("main", __name__)
 
@@ -33,8 +39,40 @@ def viewer(file_id):
 
 @main_bp.route("/api/process/<file_id>", methods=["POST"])
 def process(file_id):
-    # TODO: Phase 2 - Handle image processing filters
-    pass
+    filepath = os.path.join(current_app.config["UPLOAD_FOLDER"], file_id)
+    json = request.json or {}
+    type = json.get("filter", "original")
+    img = get_pixel_array(filepath)
+    if type == "original":
+        image = get_image_as_png(filepath)
+    else:
+        if type == "window":
+            window = float(json.get("window", 0))
+            level = float(json.get("level", 0))
+            img = image_processor.apply_window_level(img, window, level)
+        elif type == "clahe":
+            img = image_processor.apply_clahe(img)
+        elif type == "edge":
+            img = image_processor.apply_edge_detection(img)
+        elif type == "invert":
+            img = image_processor.apply_invert(img)
+
+        image = Image.fromarray(img)
+    
+    memory_file = io.BytesIO()
+    image.save(memory_file, "PNG")
+    memory_file.seek(0)
+    
+    
+    return send_file(memory_file, mimetype='image/png')
+
+
+
+
+
+
+
+
 
 
 @main_bp.route("/api/download/<file_id>")
