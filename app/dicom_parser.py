@@ -12,7 +12,14 @@ from PIL import Image
 
 def parse_dicom(filepath: str) -> dict:
     dataset = pydicom.dcmread(filepath)
-    return {'name': str(dataset.PatientName), 'age': dataset.PatientAge, 'sex': dataset.PatientSex, 'study_date': dataset.StudyDate, 'study_description': dataset.StudyDescription, 'modality': dataset.Modality}
+    return {
+        'name': str(getattr(dataset, 'PatientName', 'Unknown')),
+        'age': str(getattr(dataset, 'PatientAge', 'Unknown')),
+        'sex': str(getattr(dataset, 'PatientSex', 'Unknown')),
+        'study_date': str(getattr(dataset, 'StudyDate', 'Unknown')),
+        'study_description': str(getattr(dataset, 'StudyDescription', 'Unknown')),
+        'modality': str(getattr(dataset, 'Modality', 'Unknown'))
+    }
 
 def get_pixel_array(filepath: str):
     arr = pydicom.dcmread(filepath).pixel_array
