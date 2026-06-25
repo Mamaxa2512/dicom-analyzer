@@ -9,9 +9,52 @@ from flask import Blueprint, render_template, request, redirect, url_for, curren
 import os
 import io
 from app import image_processor
-
+from dotenv import load_dotenv
+import google.generativeai as genai
 
 main_bp = Blueprint("main", __name__)
+
+@main_bp.route("/api/report/<file_id>")
+def generate_report(file_id):
+    load_dotenv()
+    api = os.environ.get("GEMINI_API_KEY")
+    genai.configure(api_key = api)
+    model = genai.GenerativeModel('gemini-2.5-flash')
+    filepath = os.path.join(current_app.config["UPLOAD_FOLDER"], file_id)
+    photo = get_image_as_png(filepath)
+
+    indtuction = """Role: You are a highly qualified diagnostic physician (radiologist/pathologist) with years of experience in analyzing medical images. Your task is to objectively, thoroughly, and professionally analyze the provided image.
+
+Instructions:
+
+    Carefully examine the image and determine its modality (e.g., X-ray, MRI, CT scan, Ultrasound, macroscopic image, or histology).
+
+    Describe the visible anatomical structures.
+
+    Pay special attention to any deviations from the norm, anomalies, artifacts, or signs of pathology.
+
+    Use precise medical terminology and maintain an objective tone. Do not provide definitive clinical diagnoses; instead, describe the visual/radiological findings and suggest probable differential conditions.
+
+Response Format:
+Structure your response clearly using the following sections:
+
+    Type of Study: [Specify the modality, projection, and body part]
+
+    Quality Assessment: [Assess whether the image quality, contrast, and resolution are adequate for comprehensive analysis]
+
+    Anatomical Findings (Normal): [Describe structures that appear unremarkable/normal]
+
+    Detected Anomalies/Pathologies: [Detail any suspicious areas: their size, shape, density/signal intensity, margins, and localization]
+
+    Impression: [Provide a concise summary of the findings and a differential diagnosis]
+
+    Medical Disclaimer: [Mandatory warning stating that this analysis is AI-generated, does not substitute professional medical advice, and must not be used for definitive diagnosis or self-treatment]."""
+    result = model.generate_content([indtuction, photo])
+    return jsonify({"report":result.text})
+
+
+    
+
 
 @main_bp.route("/")
 def index():

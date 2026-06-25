@@ -129,6 +129,39 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchAndDrawHisogram();
 
 
+    const btnAi = document.getElementById('btn-ai-analyze');
+    const aiReportBox = document.getElementById('ai-report-box');
+    const aiReportText = document.getElementById('ai-report-text');
+
+    if (btnAi) {
+        btnAi.addEventListener('click', async () => {
+            // Змінюємо стан кнопки на "завантаження"
+            btnAi.innerText = '⏳ AI is scanning tissue...';
+            btnAi.disabled = true;
+
+            // Показуємо чорний екран звіту з текстом завантаження
+            aiReportBox.style.display = 'block';
+            aiReportText.innerText = 'Transmitting image matrix to Gemini servers...\nWaiting for radiological analysis...';
+
+            try {
+                // Звертаємося до твого нового бекенд-маршруту
+                const response = await fetch(`/api/report/${fileId}`);
+                const data = await response.json();
+
+                // Вставляємо фінальний звіт на екран
+                aiReportText.innerText = data.report;
+
+            } catch (error) {
+                aiReportText.innerText = "Error connecting to AI Backend: " + error;
+            } finally {
+                // Повертаємо кнопку в нормальний стан
+                btnAi.innerText = '🤖 Re-run AI Analysis';
+                btnAi.disabled = false;
+            }
+        });
+    }
+
+
 
 
 });
