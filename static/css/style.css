@@ -173,3 +173,84 @@ body > p {
     margin-top: 2rem;
     padding-bottom: 2rem;
 }
+
+/* Upload Page Styling */
+.upload-container {
+    max-width: 600px;
+    margin: 6rem auto;
+    background-color: var(--bg-secondary);
+    padding: 3rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+.upload-container h2 {
+    margin-top: 0;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.upload-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.upload-container input[type="file"] {
+    background-color: var(--bg-panel);
+    color: var(--text-primary);
+    padding: 2.5rem;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.upload-container input[type="file"]:hover {
+    border-color: var(--accent);
+    background-color: rgba(0, 181, 173, 0.05);
+}
+
+/* Customizing the default "Browse" button inside the input */
+.upload-container input[type="file"]::file-selector-button {
+    background-color: var(--bg-secondary);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 15px;
+    transition: all 0.2s ease;
+}
+
+.upload-container input[type="file"]::file-selector-button:hover {
+    background-color: var(--accent);
+    color: #fff;
+}
+
+.upload-container button {
+    background-color: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.upload-container button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 181, 173, 0.3);
+}

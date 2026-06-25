@@ -64,3 +64,11 @@ def get_histogram(image_array):
     img_norm = normalize(image_array)
     hist = cv2.calcHist([img_norm], [0], None, [256], [0, 256])
     return hist.flatten().tolist()
+
+def upscale_for_display(image_8bit, min_size = 512):
+    h, w = image_8bit.shape[:2]
+    if h < min_size or w < min_size:
+        scale = max(min_size/h, min_size/w)
+        new_size = (int(w*scale), int(h*scale))
+        return cv2.resize(image_8bit, new_size, interpolation = cv2.INTER_CUBIC)
+    return image_8bit
