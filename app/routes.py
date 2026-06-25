@@ -14,6 +14,7 @@ import google.generativeai as genai
 
 main_bp = Blueprint("main", __name__)
 
+
 @main_bp.route("/api/report/<file_id>")
 def generate_report(file_id):
     load_dotenv()
