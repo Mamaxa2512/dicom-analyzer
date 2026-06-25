@@ -18,6 +18,9 @@
 
     <div class="main-viewer">
         <div class="toolbar">
+            <a href="/" style="text-decoration: none;">
+                <button type="button">⬅ Upload New File</button>
+            </a>
             <button id="btn-reset" data-filter="original">Reset</button>
             <button id="btn-invert" data-filter="invert">Invert</button>
             <button id="btn-clahe" data-filter="clahe">CLAHE</button>
@@ -37,8 +40,8 @@
                 <div id="ai-report-box"
                     style="display: none; margin-top: 20px; padding: 20px; background-color: #1b1c1d; border: 1px solid #00b5ad; border-radius: 8px; text-align: left;">
                     <h4 style="color: #00b5ad; margin-top: 0;">AI Diagnostic Report</h4>
-                    <pre id="ai-report-text"
-                        style="color: #e0e1e2; font-family: monospace; white-space: pre-wrap; font-size: 14px; line-height: 1.5;"></pre>
+                    <div id="ai-report-text"
+                        style="color: #e0e1e2; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; margin-top: 15px;"></div>
                 </div>
             </div>
         </div>

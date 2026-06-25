@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Показуємо чорний екран звіту з текстом завантаження
             aiReportBox.style.display = 'block';
-            aiReportText.innerText = 'Transmitting image matrix to Gemini servers...\nWaiting for radiological analysis...';
+            aiReportText.innerHTML = '<i>Transmitting image matrix to Gemini servers...<br>Waiting for radiological analysis...</i>';
 
             try {
                 // Звертаємося до твого нового бекенд-маршруту
@@ -149,10 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 // Вставляємо фінальний звіт на екран
-                aiReportText.innerText = data.report;
+                aiReportText.innerHTML = marked.parse(data.report);
 
             } catch (error) {
-                aiReportText.innerText = "Error connecting to AI Backend: " + error;
+                aiReportText.innerHTML = "<b>Error connecting to AI Backend:</b> " + error;
             } finally {
                 // Повертаємо кнопку в нормальний стан
                 btnAi.innerText = '🤖 Re-run AI Analysis';
