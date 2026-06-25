@@ -28,9 +28,12 @@
             <img src="/api/download/{{file_id}}" alt="Cant load image" id="dicomImage" data-file-id="{{file_id}}"
                 style="display: none">
             <canvas id="dicomCanvas"></canvas>
+            <canvas id="histogram"></canvas>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/viewer.js') }}"></script>
+
 {% endblock %}

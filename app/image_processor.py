@@ -58,3 +58,9 @@ def apply_invert(image_array):
     normalized = normalize(image_array)
     return 255 - normalized
 
+
+
+def get_histogram(image_array):
+    img_norm = normalize(image_array)
+    hist = cv2.calcHist([img_norm], [0], None, [256], [0, 256])
+    return hist.flatten().tolist()

@@ -5,7 +5,7 @@ from PIL import Image
 from app.dicom_parser import parse_dicom, get_image_as_png, get_pixel_array
 
 # pyrefly: ignore [missing-import]
-from flask import Blueprint, render_template, request, redirect, url_for, current_app, send_file
+from flask import Blueprint, render_template, request, redirect, url_for, current_app, send_file, jsonify
 import os
 import io
 from app import image_processor
@@ -78,4 +78,12 @@ def download(file_id):
     img.save(memory_file, "PNG")
     memory_file.seek(0)
     return send_file(memory_file, mimetype='image/png')
+
+
+
+@main_bp.route("/api/histogram/<file_id>")
+def histogram(file_id):
+    arr = get_pixel_array(os.path.join(current_app.config["UPLOAD_FOLDER"], file_id))
+    hist =  image_processor.get_histogram(arr)
+    return jsonify({"histogram": hist})
 

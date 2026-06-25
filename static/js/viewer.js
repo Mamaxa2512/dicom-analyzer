@@ -3,17 +3,20 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    dicomCanvas = document.getElementById("dicomCanvas")
-    dicomImage = document.getElementById("dicomImage")
-    ctx = dicomCanvas.getContext('2d')
-    fileId = dicomImage.getAttribute('data-file-id')
+    const dicomCanvas = document.getElementById("dicomCanvas");
+    const dicomImage = document.getElementById("dicomImage");
+    const ctx = dicomCanvas.getContext('2d');
+    const fileId = dicomImage.getAttribute('data-file-id');
+    const histogramCanvas = document.getElementById('histogram');
+    let graph = null;
+
 
 
     function stampImage() {
         dicomCanvas.width = dicomImage.naturalWidth;
-        dicomCanvas.height = dicomImage.naturalHeight
+        dicomCanvas.height = dicomImage.naturalHeight;
 
-        ctx.drawImage(dicomImage, 0, 0)
+        ctx.drawImage(dicomImage, 0, 0);
     }
 
     if (dicomImage.complete && dicomImage.naturalWidth !== 0) {
@@ -44,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         img.src = tempUrl;
+        fetchAndDrawHisogram();
     }
 
 
@@ -95,6 +99,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     });
+
+    async function fetchAndDrawHisogram() {
+        const hist = await fetch(`/api/histogram/${fileId}`);
+        const data = await hist.json();
+        const arr = data.histogram;
+        const histogramctx = histogramCanvas.getContext('2d');
+
+        const xLabel = Array.from({ length: 256 }, (_, i) => i);
+        if (graph) {
+            graph.destroy();
+        }
+        graph = new Chart(histogramctx, {
+            type: "bar",
+            data: {
+                labels: xLabel,
+                datasets: [{
+                    label: "Graph",
+                    data: arr,
+                    backgroundColor: "rgba(75, 192, 192, 0.6)"
+                }]
+
+            },
+            options: {
+                animation: false
+            }
+        });
+    }
+    fetchAndDrawHisogram();
+
+
 
 
 });
