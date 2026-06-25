@@ -53,6 +53,7 @@ def process(file_id):
         elif type == "invert":
             img = image_processor.apply_invert(img)
 
+        img = image_processor.upscale_for_display(img)
         image = Image.fromarray(img)
     
     memory_file = io.BytesIO()

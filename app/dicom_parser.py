@@ -6,6 +6,7 @@ import pydicom
 # pyrefly: ignore [missing-import]
 import numpy as np
 from PIL import Image
+from app import image_processor
 
 
 
@@ -34,6 +35,7 @@ def get_image_as_png(filepath: str):
     norm_arr = (arr - min) / (max - min)*255
 
     ready_arr = norm_arr.astype(np.uint8)
+    ready_arr = image_processor.upscale_for_display(ready_arr)
 
     img = Image.fromarray(ready_arr)
     return img
